@@ -9,9 +9,9 @@
 	<version>1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<properties>
-		<java.version>17</java.version>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<java.version>11</java.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 		<sonar.host.url>http://172.31.15.49:9000/</sonar.host.url>
 		<sonar.token>sqa_2ba31d8c40e5e3ccc022d9516c1561aeb0ece874</sonar.token>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
