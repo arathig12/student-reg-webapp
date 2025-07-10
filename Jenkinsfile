@@ -46,20 +46,11 @@ node{
 		echo "An error occured: ${err.getMessage()}"
         currentBuild.result = 'FAILURE'
 	}
-    finally {
+finally {
     script {
         def buildStatus = currentBuild.result ?: 'SUCCESS'
-        sendEmail(
-            subject: "${env.JOB_NAME} - ${env.BUILD_NUMBER} - Build ${buildStatus}",
-            body: "Build ${buildStatus}. Please check the console output at ${env.BUILD_URL}",
-            recipient: 'arathisk12@gmail.com'
-        )
 
-      
-    }
-}
-}	
-  def sendEmail(String subject, String body, String recipient) {
+        def sendEmail = { String subject, String body, String recipient ->
             emailext(
                 subject: subject,
                 body: body,
@@ -67,3 +58,14 @@ node{
                 mimeType: 'text/html'
             )
         }
+
+        sendEmail(
+            "${env.JOB_NAME} - ${env.BUILD_NUMBER} - Build ${buildStatus}",
+            "Build ${buildStatus}. Please check the console output at ${env.BUILD_URL}",
+            "arathisk12@gmail.com"
+        )
+    }
+}
+
+}	
+  
