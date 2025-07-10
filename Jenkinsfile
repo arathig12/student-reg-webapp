@@ -24,20 +24,20 @@ node{
 	stage("stop tomcat service"){
 	  sshagent(['Tomcat_server']){
         sh """	    
-		ssh -o StrictHostKeyChecking=no ec2-user@52.66.81.148 'sudo systemctl stop tomcat'
+		ssh -o StrictHostKeyChecking=no ec2-user@65.0.27.90 'sudo systemctl stop tomcat'
 		sleep 10
 		"""
 	  }
 	}
     stage("Deploy war to tomcat"){
         sshagent(['Tomcat_server']) {
-    sh "scp -o strictHostKeyChecking=no target/student-reg-webapp.war ec2-user@52.66.81.148:/opt/tomcat/webapps/"
+    sh "scp -o strictHostKeyChecking=no target/student-reg-webapp.war ec2-user@65.0.27.90:/opt/tomcat/webapps/"
         }
     }
     
 	stage("start tomcat service"){
 	  sshagent(['Tomcat_server']){
-	    sh "ssh -o StrictHostKeyChecking=no ec2-user@52.66.81.148 'sudo systemctl start tomcat'"
+	    sh "ssh -o StrictHostKeyChecking=no ec2-user@65.0.27.90 'sudo systemctl start tomcat'"
 
 	  }
 	}
