@@ -50,22 +50,30 @@ finally {
     script {
         def buildStatus = currentBuild.result ?: 'SUCCESS'
 
-        def sendEmail = { String subject, String body, String recipient ->
-            emailext(
-                subject: subject,
-                body: body,
-                to: recipient,
-                mimeType: 'text/html'
-            )
-        }
+        // Set color: green for SUCCESS, red for FAILURE/others
+        def color = buildStatus == 'SUCCESS' ? 'green' : 'red'
 
-        sendEmail(
-            "${env.JOB_NAME} - ${env.BUILD_NUMBER} - Build ${buildStatus}",
-            "Build ${buildStatus}. Please check the console output at ${env.BUILD_URL}",
-            "arathisk12@gmail.com"
+        def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} - ${buildStatus}"
+        def body = """
+            <html>
+            <body style="font-family: Arial, sans-serif; font-size: 14px;">
+                <p><strong>Job Name:</strong> ${env.JOB_NAME}</p>
+                <p><strong>Build Number:</strong> ${env.BUILD_NUMBER}</p>
+                <p><strong>Build Status:</strong> <span style="color:${color}; font-weight:bold;">${buildStatus}</span></p>
+                <p><strong>Console Output:</strong> <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+            </body>
+            </html>
+        """
+
+        emailext(
+            subject: subject,
+            body: body,
+            mimeType: 'text/html',
+            to: 'arathisk12@gmail.com'
         )
     }
 }
+
 
 }	
   
