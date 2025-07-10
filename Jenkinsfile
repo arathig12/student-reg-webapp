@@ -4,7 +4,7 @@ node{
     def mavenHome =tool name: 'Maven-3.9.10', type: 'maven'
     stage("Git Clone")
     {
-        echo "Git Clone"
+        echo "Git Clone
         git branch: 'development', credentialsId: 'GitHubCred', url: 'https://github.com/arathig12/student-reg-webapp.git'
     }
     stage("Package")
