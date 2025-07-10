@@ -1,0 +1,43 @@
+node{
+    def mavenHome =tool name: 'Maven-3.9.10', type: 'maven'
+    stage("Git Clone")
+    {
+        echo "Git Clone"
+        git branch: 'development', credentialsId: 'GitHubCred', url: 'https://github.com/arathig12/student-reg-webapp.git'
+    }
+    stage("Package")
+    {
+        sh "${mavenHome}/bin/mvn clean package"
+    }
+
+    stage("verify"){
+        withCredentials([string(credentialsId: 'sonarToken', variable: 'sonarToken')]) {
+        sh "${mavenHome}/bin/mvn clean verify sonar:sonar -Dsonar.token=${sonarToken}"
+        }
+    }
+    stage("Deploy"){
+         sh "${mavenHome}/bin/mvn clean deploy"
+    }
+	
+	stage("stop tomcat service"){
+	  sshagent(['Tomcat_Server']){
+        sh """	    
+		sh "scp -o strictHostKeyChecking=no ec2-user@172.31.14.221 sudo systemctl stop tomcat"
+		sleep 10
+		"""
+	  }
+	}
+    stage("Deploy war to tomcat"){
+        sshagent(['Tomcat_server']) {
+    sh "scp -o strictHostKeyChecking=no target/student-reg-webapp.war ec2-user@172.31.14.221:/opt/tomcat/webapps/"
+        }
+    }
+    
+	stage("start tomcat service"){
+	  sshagent(['Tomcat_Server']){
+	     sh "scp -o strictHostKeyChecking=no ec2-user@172.31.14.221 sudo systemctl start tomcat"
+	  }
+	}
+	
+}
+
