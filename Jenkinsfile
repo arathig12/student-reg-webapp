@@ -35,7 +35,7 @@ node{
     
 	stage("start tomcat service"){
 	  sshagent(['Tomcat_server']){
-	     ssh -o StrictHostKeyChecking=no ec2-user@52.66.81.148 'sudo systemctl start tomcat'
+	    sh "ssh -o StrictHostKeyChecking=no ec2-user@52.66.81.148 'sudo systemctl start tomcat'"
 
 	  }
 	}
