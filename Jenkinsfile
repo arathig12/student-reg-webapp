@@ -43,7 +43,7 @@ node{
 	}
 }
 	catch (err){
-		echo "An error occured: ${e,getMessage()}"
+		echo "An error occured: ${e.getMessage()}"
         currentBuild.result = 'FAILURE'
 	}
     finally{
