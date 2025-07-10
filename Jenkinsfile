@@ -22,7 +22,7 @@ node{
 	stage("stop tomcat service"){
 	  sshagent(['Tomcat_server']){
         sh """	    
-		sh "scp -o strictHostKeyChecking=no ec2-user@52.66.81.148 sudo systemctl stop tomcat"
+		ssh -o StrictHostKeyChecking=no ec2-user@52.66.81.148 'sudo systemctl stop tomcat'
 		sleep 10
 		"""
 	  }
@@ -35,7 +35,8 @@ node{
     
 	stage("start tomcat service"){
 	  sshagent(['Tomcat_server']){
-	     sh "scp -o strictHostKeyChecking=no ec2-user@52.66.81.148 sudo systemctl start tomcat"
+	     ssh -o StrictHostKeyChecking=no ec2-user@52.66.81.148 'sudo systemctl start tomcat'
+
 	  }
 	}
 	
