@@ -48,6 +48,7 @@ node{
 		echo "An error occured: ${err.getMessage()}"
         currentBuild.result = 'FAILURE'
 		buildStatus = 'FAILURE' 
+		throw err
 	}
 finally {
     script {
