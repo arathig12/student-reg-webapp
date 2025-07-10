@@ -52,7 +52,7 @@ node{
 	}
 finally {
     script {
-        def buildStatus = currentBuild.result ?: 'SUCCESS'
+        //def buildStatus = currentBuild.result ?: 'SUCCESS'
 
         // Set color: green for SUCCESS, red for FAILURE/others
         def color = buildStatus == 'SUCCESS' ? 'green' : 'red'
