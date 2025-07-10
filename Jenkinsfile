@@ -1,4 +1,6 @@
 node{
+	def buildStatus = 'SUCCESS'  // Default status
+
 	try{
 		
     def mavenHome =tool name: 'Maven-3.9.10', type: 'maven'
@@ -45,6 +47,7 @@ node{
 	catch (err){
 		echo "An error occured: ${err.getMessage()}"
         currentBuild.result = 'FAILURE'
+		buildStatus = 'FAILURE' 
 	}
 finally {
     script {
